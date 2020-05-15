@@ -111,11 +111,11 @@ namespace AutoClickScript
         /// </summary>
         public static void SendMsg(int x, int y,IntPtr hWnd)
         {
-            //SendMessage(hWnd, WM_MOUSEMOVE, IntPtr.Zero, (IntPtr)(y * 65536 + x));
-            //SendMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)(y * 65536 + x));
-            //SendMessage(hWnd, WM_LBUTTONUP, (IntPtr)MK_LBUTTON, (IntPtr)(y * 65536 + x));
+            SendMessage(hWnd, WM_MOUSEMOVE, IntPtr.Zero, (IntPtr)(y * 65536 + x));
+            SendMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)(y * 65536 + x));
+            SendMessage(hWnd, WM_LBUTTONUP, (IntPtr)MK_LBUTTON, (IntPtr)(y * 65536 + x));
 
-            //SendMessage(hWnd, WM_MOUSEMOVE, IntPtr.Zero, (IntPtr)(y * 65536 + x));
+            SendMessage(hWnd, WM_MOUSEMOVE, IntPtr.Zero, (IntPtr)(y * 65536 + x));
             SendMessage(hWnd, WM_LBUTTONDOWN, (IntPtr)MK_LBUTTON, (IntPtr)(y * 65536 + x));
             SendMessage(hWnd, WM_LBUTTONUP, (IntPtr)MK_LBUTTON, (IntPtr)(y * 65536 + x));
         }
