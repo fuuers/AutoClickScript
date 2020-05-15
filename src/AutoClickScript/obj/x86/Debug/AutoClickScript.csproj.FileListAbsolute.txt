@@ -1,0 +1,14 @@
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\bin\Debug\AutoClickScript.exe
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\bin\Debug\AutoClickScript.pdb
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\Interop.MbaeApiLib.dll
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.csproj.ResolveComReference.cache
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.AllProcessForm.resources
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.CaptureForm.resources
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.MainForm.resources
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.Properties.Resources.resources
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.UiControl.resources
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.csproj.GenerateResource.cache
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.csproj.CoreCompileInputs.cache
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.exe
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.pdb
+C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.csprojAssemblyReference.cache

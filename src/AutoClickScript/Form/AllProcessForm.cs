@@ -16,6 +16,7 @@ namespace AutoClickScript
     public partial class AllProcessForm : Form
     {
         public string SelectedName = string.Empty;
+        public IntPtr SelectedHandle = IntPtr.Zero;
         public AllProcessForm()
         {
             InitializeComponent();
@@ -28,7 +29,8 @@ namespace AutoClickScript
             if (e.ColumnIndex == grid.Columns[ColChoice.Name].Index)
             {
                 this.DialogResult = DialogResult.OK;
-                SelectedName = grid[0, e.RowIndex].Value.ToString();
+                SelectedName = grid[ColName.Name, e.RowIndex].Value.ToString();
+                SelectedHandle = (IntPtr)grid[ColHandle.Name, e.RowIndex].Value;
                 this.Close();
             }
         }

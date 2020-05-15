@@ -26,6 +26,25 @@ namespace AutoClickScript
             timer1.Start();
         }
 
+        /*
+         * 
+         
+            5678
+            3478
+            2468
+
+
+         000    1
+         001    2
+         010    3
+         011    4
+         100    5
+         101    6
+         110    7
+         111    8
+
+         */
+
         #region==============================方法
 
         /// <summary>
@@ -36,22 +55,30 @@ namespace AutoClickScript
         {
             UiInfo ui = new UiInfo(img.Clone() as Bitmap, img_loca, click_loca);
 
-            int y = 177 * (list_UI.Count) + 39;
-
             UiControl ui_ctr = new UiControl();
-            ui_ctr.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            ui_ctr.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            ui_ctr.Location = new System.Drawing.Point(6, y);
-            ui_ctr.Name = "uI_Control1";
-            ui_ctr.Size = new System.Drawing.Size(219, 171);
             ui_ctr.TabIndex = list_UI.Count;
+            ui_ctr.Location = CalculateUiLoca(list_UI.Count);
             ui_ctr.uiInfo = ui;
             ui_ctr.DoFixImage = FixImage;
+            ui_ctr.DoDeleteImage = DeleteImage;
 
             ui_ctr.TextLoca = ui._clickLoca.X + "," + ui._clickLoca.Y;
             ui_ctr.UiImage = ui._img._img;
             this.tabControl1.TabPages[0].Controls.Add(ui_ctr);
             this.list_UI.Add(ui_ctr);
+        }
+
+        private Point CalculateUiLoca(int index)
+        {
+            int L = index / 2;
+            int x = 6;
+            int y = 242 * L + 100;
+            if ((index + 1) % 2 == 0)
+            {
+                x = 370;
+            }
+
+            return new Point(x, y);
         }
 
         /// <summary>
@@ -70,6 +97,25 @@ namespace AutoClickScript
             this.Show();
         }
 
+        /// <summary>
+        /// UI删除
+        /// </summary>
+        /// <param name="uic"></param>
+        private void DeleteImage(UiControl uic)
+        {
+            this.list_UI.Remove(uic);
+            this.tabControl1.TabPages[0].Controls.Remove(uic);
+            list_UI.ForEach(x =>
+            {
+                x.TabIndex = list_UI.IndexOf(x);
+                x.Location = CalculateUiLoca(x.TabIndex);
+            });
+        }
+
+        /// <summary>
+        /// 生成截图的Form
+        /// </summary>
+        /// <returns></returns>
         private CaptureForm GetCaptureForm()
         {
             int swidth = Screen.PrimaryScreen.Bounds.Width;
@@ -101,8 +147,14 @@ namespace AutoClickScript
         /// </summary>
         private void DoStart()
         {
-            //Start1();
-            Start2();
+            if (comScriptMode.SelectedIndex == 0)
+            {
+                Start1();
+            }
+            else
+            {
+                Start2();
+            }
         }
 
         /// <summary>
@@ -144,16 +196,13 @@ namespace AutoClickScript
                             now_ui = null;
                         }
                     }
-                    form_img._img.Dispose();
+                    form_img?._img?.Dispose();
                     form_img = null;
                 }
                 catch (Exception ex)
                 {
-                    if (form_img != null && form_img._img != null)
-                    {
-                        form_img._img.Dispose();
-                        form_img = null;
-                    }
+                    form_img?._img?.Dispose();
+                    form_img = null;
                 }
             }
         }
@@ -203,22 +252,21 @@ namespace AutoClickScript
                             Thread.Sleep(300);
                         }
                     }
-                    form_img._img.Dispose();
+
+                    form_img?._img?.Dispose();
                     form_img = null;
+
                 }
                 catch (Exception ex)
                 {
-                    if (form_img != null && form_img._img != null)
-                    {
-                        form_img._img.Dispose();
-                        form_img = null;
-                    }
+                    form_img?._img?.Dispose();
+                    form_img = null;
                 }
             }
         }
         private void UpdateImage(Bitmap bit)
         {
-            if (btnRefreshFLg.Tag.ToString() == "true")
+            if (chkRefresh.Checked)
             {
                 if (this.InvokeRequired)
                 {
@@ -226,7 +274,7 @@ namespace AutoClickScript
                 }
                 else
                 {
-                    this.pictureBox1.Image = bit.Clone() as Image;
+                    this.picUi.Image = bit.Clone() as Image;
                 }
             }
         }
@@ -301,19 +349,12 @@ namespace AutoClickScript
             if (f.ShowDialog() == DialogResult.OK)
             {
                 this.txtExeName.Text = f.SelectedName;
-                btnFindForm_Click(null, null);
-            }
-        }
-
-        private void btnRefreshFLg_Click(object sender, EventArgs e)
-        {
-            if (btnRefreshFLg.Tag.ToString() == "false")
-            {
-                btnRefreshFLg.Tag = "true";
-            }
-            else
-            {
-                btnRefreshFLg.Tag = "false";
+                processInfo = new ProcessInfo();
+                processInfo._Handle = f.SelectedHandle;
+                processInfo._Image = WinApi.GetWindowCapture(processInfo._Handle);
+                processInfo._Location = processInfo._Image._screenLoca1;
+                processInfo._Name = this.txtExeName.Text;
+                this.picProcess.Image = Common.GetThumbnail(processInfo._Image._img.Clone() as Bitmap, picProcess.Height, this.picProcess.Width);
             }
         }
 
@@ -377,13 +418,18 @@ namespace AutoClickScript
                 MessageBox.Show("目标程序未启动");
                 return;
             }
-
-            processInfo = new ProcessInfo();
-            processInfo._Handle = ps[0].MainWindowHandle;
-            processInfo._Image = WinApi.GetWindowCapture(processInfo._Handle);
-            processInfo._Location = processInfo._Image._screenLoca1;
-            processInfo._Name = this.txtExeName.Text;
-            this.pictureBox1.Image = processInfo._Image._img.Clone() as Image;
+            foreach (Process p in ps)
+            {
+                if (p.MainWindowHandle != IntPtr.Zero)
+                {
+                    processInfo = new ProcessInfo();
+                    processInfo._Handle = p.MainWindowHandle;
+                    processInfo._Image = WinApi.GetWindowCapture(processInfo._Handle);
+                    processInfo._Location = processInfo._Image._screenLoca1;
+                    processInfo._Name = this.txtExeName.Text;
+                    this.picProcess.Image = Common.GetThumbnail(processInfo._Image._img.Clone() as Bitmap, picProcess.Height, this.picProcess.Width);
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)

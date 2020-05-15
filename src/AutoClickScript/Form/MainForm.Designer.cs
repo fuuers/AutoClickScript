@@ -33,13 +33,15 @@
             this.txtExeName = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.picUi = new System.Windows.Forms.PictureBox();
+            this.chkRefresh = new System.Windows.Forms.CheckBox();
             this.txtFree = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnUIAdd = new System.Windows.Forms.Button();
             this.tabImage = new System.Windows.Forms.TabPage();
-            this.btnRefreshFLg = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.picProcess = new System.Windows.Forms.PictureBox();
             this.labNowLoca = new System.Windows.Forms.Label();
             this.btnBind = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -48,11 +50,16 @@
             this.btnSaveSlu = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnShowAllProcess = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comScriptMode = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUi)).BeginInit();
             this.tabImage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picProcess)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -82,12 +89,13 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1335, 921);
+            this.tabControl1.Size = new System.Drawing.Size(1154, 844);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
+            this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.txtFree);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.btnClear);
@@ -96,10 +104,39 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(1327, 887);
+            this.tabPage1.Size = new System.Drawing.Size(1146, 810);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "UI";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.picUi);
+            this.groupBox2.Controls.Add(this.chkRefresh);
+            this.groupBox2.Location = new System.Drawing.Point(737, 19);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(387, 259);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "截取到的画面";
+            // 
+            // picUi
+            // 
+            this.picUi.Location = new System.Drawing.Point(15, 65);
+            this.picUi.Name = "picUi";
+            this.picUi.Size = new System.Drawing.Size(352, 174);
+            this.picUi.TabIndex = 1;
+            this.picUi.TabStop = false;
+            // 
+            // chkRefresh
+            // 
+            this.chkRefresh.AutoSize = true;
+            this.chkRefresh.Location = new System.Drawing.Point(15, 31);
+            this.chkRefresh.Name = "chkRefresh";
+            this.chkRefresh.Size = new System.Drawing.Size(211, 24);
+            this.chkRefresh.TabIndex = 0;
+            this.chkRefresh.Text = "是否及时更新此画面";
+            this.chkRefresh.UseVisualStyleBackColor = true;
             // 
             // txtFree
             // 
@@ -143,37 +180,24 @@
             // 
             // tabImage
             // 
-            this.tabImage.Controls.Add(this.btnRefreshFLg);
-            this.tabImage.Controls.Add(this.pictureBox1);
+            this.tabImage.Controls.Add(this.picProcess);
             this.tabImage.Location = new System.Drawing.Point(4, 30);
             this.tabImage.Margin = new System.Windows.Forms.Padding(4);
             this.tabImage.Name = "tabImage";
             this.tabImage.Padding = new System.Windows.Forms.Padding(4);
-            this.tabImage.Size = new System.Drawing.Size(1327, 887);
+            this.tabImage.Size = new System.Drawing.Size(1146, 810);
             this.tabImage.TabIndex = 1;
             this.tabImage.Text = "当前绑定的画面";
             this.tabImage.UseVisualStyleBackColor = true;
             // 
-            // btnRefreshFLg
+            // picProcess
             // 
-            this.btnRefreshFLg.Location = new System.Drawing.Point(39, 8);
-            this.btnRefreshFLg.Margin = new System.Windows.Forms.Padding(4);
-            this.btnRefreshFLg.Name = "btnRefreshFLg";
-            this.btnRefreshFLg.Size = new System.Drawing.Size(153, 34);
-            this.btnRefreshFLg.TabIndex = 2;
-            this.btnRefreshFLg.Tag = "\"false\"";
-            this.btnRefreshFLg.Text = "实时更新画面";
-            this.btnRefreshFLg.UseVisualStyleBackColor = true;
-            this.btnRefreshFLg.Click += new System.EventHandler(this.btnRefreshFLg_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(39, 61);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1125, 790);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.picProcess.Location = new System.Drawing.Point(8, 8);
+            this.picProcess.Margin = new System.Windows.Forms.Padding(4);
+            this.picProcess.Name = "picProcess";
+            this.picProcess.Size = new System.Drawing.Size(1125, 790);
+            this.picProcess.TabIndex = 0;
+            this.picProcess.TabStop = false;
             // 
             // labNowLoca
             // 
@@ -240,7 +264,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.labNowLoca);
-            this.groupBox1.Location = new System.Drawing.Point(22, 834);
+            this.groupBox1.Location = new System.Drawing.Point(22, 781);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 100);
             this.groupBox1.TabIndex = 7;
@@ -257,12 +281,35 @@
             this.btnShowAllProcess.UseVisualStyleBackColor = true;
             this.btnShowAllProcess.Click += new System.EventHandler(this.btnShowAllProcess_Click);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.comScriptMode);
+            this.groupBox3.Location = new System.Drawing.Point(22, 665);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 100);
+            this.groupBox3.TabIndex = 7;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "脚本运行模式";
+            // 
+            // comScriptMode
+            // 
+            this.comScriptMode.FormattingEnabled = true;
+            this.comScriptMode.Items.AddRange(new object[] {
+            "模式1",
+            "模式2"});
+            this.comScriptMode.Location = new System.Drawing.Point(6, 36);
+            this.comScriptMode.Name = "comScriptMode";
+            this.comScriptMode.Size = new System.Drawing.Size(177, 28);
+            this.comScriptMode.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1658, 1021);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1450, 894);
             this.Controls.Add(this.btnShowAllProcess);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSaveSlu);
             this.Controls.Add(this.btnStop);
@@ -278,10 +325,14 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUi)).EndInit();
             this.tabImage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picProcess)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -294,7 +345,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabImage;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox picProcess;
         private System.Windows.Forms.Button btnBind;
         private System.Windows.Forms.Button btnUIAdd;
         private System.Windows.Forms.Label labNowLoca;
@@ -304,9 +355,13 @@
         private System.Windows.Forms.TextBox txtFree;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnRefreshFLg;
         private System.Windows.Forms.Button btnSaveSlu;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnShowAllProcess;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox chkRefresh;
+        private System.Windows.Forms.PictureBox picUi;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox comScriptMode;
     }
 }
