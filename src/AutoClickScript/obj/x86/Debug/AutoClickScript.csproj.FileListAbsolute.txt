@@ -11,4 +11,3 @@ C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClick
 C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.csproj.CoreCompileInputs.cache
 C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.exe
 C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.pdb
-C:\Users\95674\mygit\AutoClickScript\src\AutoClickScript\obj\x86\Debug\AutoClickScript.csprojAssemblyReference.cache

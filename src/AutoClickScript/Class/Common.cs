@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace AutoClickScript
 {
@@ -27,6 +29,11 @@ namespace AutoClickScript
             {
                 func(v);
             }
+        }
+
+        public static TResult ToString<TSource, TResult>(this TSource obj, Func<TSource, TResult> func)
+        {
+            return func(obj);
         }
 
         /// <summary>
@@ -179,6 +186,15 @@ namespace AutoClickScript
         [DllImport("kernel32")]
         public static extern int WritePrivateProfileString(string lpAppName, string lpKeyName, string lpString, string lpFileName);
 
+        [DllImport("KERNEL32.DLL", EntryPoint = "GetPrivateProfileString")]
+        public static extern uint GetPrivateProfileStringByByteArray(
+            string lpAppName,
+            string lpKeyName,
+            string lpDefault,
+            byte[] lpReturnedString,
+            uint nSize,
+            string inifilename);
+
         public static string ReadIni(string sectionName, string keyName, string path, string defultString)
         {
             if (File.Exists(path) == false)
@@ -194,6 +210,59 @@ namespace AutoClickScript
         public static void WriteIni(string sectionName, string keyName, string value, string path)
         {
             WritePrivateProfileString(sectionName, keyName, value, path);
+        }
+
+        public static string[] ReadIniSecKey(string i_EntryName, string i_FilePath)
+        {
+            if (File.Exists(i_FilePath) == false)
+            {
+                return new string[] { };
+            }
+
+            byte[] bytarr = new byte[4096];
+
+            uint resultSize = GetPrivateProfileStringByByteArray(
+                i_EntryName, null, "", bytarr,
+                (uint)bytarr.Length, i_FilePath);
+            if (resultSize <= 0)
+            {
+                return new string[] { };
+            }
+            string result = System.Text.Encoding.Default.GetString(bytarr, 0, (int)resultSize - 1);
+
+            string[] keys = result.Split('\0');
+
+            return keys;
+        }
+
+        public static Dictionary<string, string> ReadIniSecAllValue(string i_EntryName, string i_FilePath)
+        {
+            if (File.Exists(i_FilePath) == false)
+            {
+                return new Dictionary<string, string>();
+            }
+
+            Dictionary<string, string> dicResult = new Dictionary<string, string>();
+
+            string[] keys = ReadIniSecKey(i_EntryName, i_FilePath);
+
+            foreach (string key in keys)
+            {
+                byte[] bytarr = new byte[2048];
+
+                uint resultSize = GetPrivateProfileStringByByteArray(
+                    i_EntryName, key, "", bytarr,
+                    (uint)bytarr.Length, i_FilePath);
+                if (resultSize <= 0)
+                {
+                    continue;
+                }
+                string result = System.Text.Encoding.Default.GetString(bytarr, 0, (int)resultSize);
+
+                dicResult[key] = result;
+            }
+
+            return dicResult;
         }
         #endregion
     }

@@ -51,6 +51,7 @@
             this.grid.RowTemplate.Height = 27;
             this.grid.Size = new System.Drawing.Size(1143, 792);
             this.grid.TabIndex = 0;
+            this.grid.CellContentClick += Grid_CellContentClick;
             // 
             // ColName
             // 

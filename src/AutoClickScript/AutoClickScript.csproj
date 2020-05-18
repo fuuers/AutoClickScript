@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\SolutionSave.cs" />
     <Compile Include="Form\AllProcessForm.cs">
       <SubType>Form</SubType>
     </Compile>

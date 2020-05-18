@@ -1,10 +1,12 @@
-﻿using System;
+﻿using AutoClickScript.Class;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,7 +14,7 @@ namespace AutoClickScript
 {
     public partial class MainForm : Form
     {
-        private List<UiControl> list_UI = new List<UiControl>();//所有UI
+        public List<UiControl> list_UI = new List<UiControl>();//所有UI
 
         private Thread main_thread = null;//脚本线程
 
@@ -51,9 +53,14 @@ namespace AutoClickScript
         /// 添加UI
         /// </summary>
         /// <param name="ui"></param>
-        private void AddNewUI(Bitmap img, Point img_loca, Point click_loca)
+        private void AddNewUI(Bitmap img, Point img_loca, Point click_loca, bool isLoad)
         {
             UiInfo ui = new UiInfo(img.Clone() as Bitmap, img_loca, click_loca);
+            if (isLoad)
+            {
+                ui._img._relativeLocal = img_loca;
+                ui._clickLoca = click_loca;
+            }
 
             UiControl ui_ctr = new UiControl();
             ui_ctr.TabIndex = list_UI.Count;
@@ -147,7 +154,18 @@ namespace AutoClickScript
         /// </summary>
         private void DoStart()
         {
-            if (comScriptMode.SelectedIndex == 0)
+            int index = -1;
+            if (this.InvokeRequired)
+            {
+                Func<ComboBox, int> func = x => x.SelectedIndex;
+                index = (int)this.Invoke(func, comScriptMode);
+            }
+            else
+            {
+                index = comScriptMode.SelectedIndex;
+            }
+
+            if (index == 0)
             {
                 Start1();
             }
@@ -296,6 +314,13 @@ namespace AutoClickScript
 
             list_UI.ForEach(x => x.Enabled = enabled);
         }
+
+        private void ChangeFormLocationAndSize(int x,int y,int width,int height)
+        {
+            WinApi.MoveWindow(processInfo._Handle, x, y, width, height, true);
+            processInfo._Image = WinApi.GetWindowCapture(processInfo._Handle);
+            processInfo._Location = processInfo._Image._screenLoca1 = new Point(x, y);
+        }
         #endregion
 
         #region ==============================事件
@@ -365,26 +390,8 @@ namespace AutoClickScript
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            string path = ".\\已保存";
-            string iniPath = path + "\\config.ini";
-            if (Directory.Exists(path) == false)
-            {
-                Directory.CreateDirectory(path);
-            }
-            if (File.Exists(iniPath) == false)
-            {
-                File.Create(iniPath).Close();
-            }
-            Common.WriteIni("form", "size", processInfo._Image._img.Size.ToString(), iniPath);
-            Common.WriteIni("form", "name", processInfo._Name, iniPath);
-            processInfo._Image._img.Save(path + "\\form.jpg");
-
-            for (int i = 0; i < list_UI.Count; i++)
-            {
-                Common.WriteIni("UI_Location", i.ToString(), list_UI[i].uiInfo._img._relativeLocal.ToString(), iniPath);
-                Common.WriteIni("UI_ClickPoint", i.ToString(), list_UI[i].uiInfo._clickLoca.ToString(), iniPath);
-                list_UI[i].uiInfo._img._img.Save(path + "\\" + i.ToString() + ".jpg");
-            }
+            SolutionSave so = new SolutionSave();
+            so.Save(list_UI);
         }
 
         /// <summary>
@@ -399,7 +406,7 @@ namespace AutoClickScript
 
             if (cutter.ShowDialog() == DialogResult.OK)
             {
-                AddNewUI(cutter._captureImg, cutter._captureLoca, cutter._clickLoca);
+                AddNewUI(cutter._captureImg, cutter._captureLoca, cutter._clickLoca, false);
             }
             this.Show();
         }
@@ -411,19 +418,30 @@ namespace AutoClickScript
         /// <param name="e"></param>
         private void btnFindForm_Click(object sender, EventArgs e)
         {
-            Process[] ps = Process.GetProcessesByName(this.txtExeName.Text);
+            Process[] ps = Process.GetProcessesByName(this.txtExeName.Text).Where(x => x.MainWindowHandle != IntPtr.Zero).ToArray();
 
             if (ps.Length == 0)
             {
                 MessageBox.Show("目标程序未启动");
                 return;
             }
-            foreach (Process p in ps)
+            else if (ps.Length == 1)
             {
-                if (p.MainWindowHandle != IntPtr.Zero)
+                processInfo = new ProcessInfo();
+                processInfo._Handle = ps[0].MainWindowHandle;
+                processInfo._Image = WinApi.GetWindowCapture(processInfo._Handle);
+                processInfo._Location = processInfo._Image._screenLoca1;
+                processInfo._Name = this.txtExeName.Text;
+                this.picProcess.Image = Common.GetThumbnail(processInfo._Image._img.Clone() as Bitmap, picProcess.Height, this.picProcess.Width);
+            }
+            else
+            {
+                AllProcessForm f = new AllProcessForm(ps);
+                if (f.ShowDialog() == DialogResult.OK)
                 {
+                    this.txtExeName.Text = f.SelectedName;
                     processInfo = new ProcessInfo();
-                    processInfo._Handle = p.MainWindowHandle;
+                    processInfo._Handle = f.SelectedHandle;
                     processInfo._Image = WinApi.GetWindowCapture(processInfo._Handle);
                     processInfo._Location = processInfo._Image._screenLoca1;
                     processInfo._Name = this.txtExeName.Text;
@@ -436,7 +454,41 @@ namespace AutoClickScript
         {
             this.labNowLoca.Text = Control.MousePosition.X + "," + Control.MousePosition.Y;
         }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            list_UI.ForEach(x => this.tabControl1.TabPages[0].Controls.Remove(x));
+            list_UI.Clear();
+            SolutionSave so = new SolutionSave();
+            so.Load();
+
+            if (so._ProcessName == string.Empty) return;
+            this.txtExeName.Text = so._ProcessName;
+            btnFindForm_Click(null, null);
+            if (processInfo._Handle != IntPtr.Zero)
+            {
+                ChangeFormLocationAndSize(0, 0, so._Bitmap.Width, so._Bitmap.Height);
+                //double ratioTempX = (double)processInfo._Image._img.Width/ (double)so._Bitmap.Width;
+                //double ratioTempY = (double)processInfo._Image._img.Height / (double)so._Bitmap.Height;
+
+                //double ratioWidth = chkWidth.Checked ? 1 : ratioTempX;
+                //double ratioHeight = chkHeight.Checked ? 1 : ratioTempY;
+                //double ratioX = chkX.Checked ? 1 : ratioTempX;
+                //double ratioY = chkY.Checked ? 1 : ratioTempY;
+                foreach (UiInfo ui in so._ListUi)
+                {
+                    AddNewUI(Common.GetThumbnail(ui._img._img, (ui._img._img.Height), (ui._img._img.Width)),
+                        new Point((ui._img._relativeLocal.X), (ui._img._relativeLocal.Y)),
+                        new Point((ui._clickLoca.X), (ui._clickLoca.Y)),
+                        true
+                        );
+                }
+            }
+        }
+
         #endregion
+
+
     }
 
     /// <summary>

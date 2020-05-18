@@ -143,6 +143,10 @@ namespace AutoClickScript
             public int Bottom;
         }
 
+        [DllImport("user32.dll", EntryPoint = "MoveWindow", CharSet = CharSet.Unicode)]
+        public static extern bool MoveWindow(System.IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
 

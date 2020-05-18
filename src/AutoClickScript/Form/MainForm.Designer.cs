@@ -52,6 +52,12 @@
             this.btnShowAllProcess = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.comScriptMode = new System.Windows.Forms.ComboBox();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chkX = new System.Windows.Forms.CheckBox();
+            this.chkY = new System.Windows.Forms.CheckBox();
+            this.chkWidth = new System.Windows.Forms.CheckBox();
+            this.chkHeight = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -60,6 +66,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picProcess)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -228,7 +235,7 @@
             // btnStart
             // 
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnStart.Location = new System.Drawing.Point(17, 79);
+            this.btnStart.Location = new System.Drawing.Point(17, 115);
             this.btnStart.Margin = new System.Windows.Forms.Padding(4);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(205, 30);
@@ -240,7 +247,7 @@
             // btnStop
             // 
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnStop.Location = new System.Drawing.Point(17, 117);
+            this.btnStop.Location = new System.Drawing.Point(17, 153);
             this.btnStop.Margin = new System.Windows.Forms.Padding(4);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(205, 30);
@@ -252,7 +259,7 @@
             // btnSaveSlu
             // 
             this.btnSaveSlu.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSaveSlu.Location = new System.Drawing.Point(17, 155);
+            this.btnSaveSlu.Location = new System.Drawing.Point(17, 191);
             this.btnSaveSlu.Margin = new System.Windows.Forms.Padding(4);
             this.btnSaveSlu.Name = "btnSaveSlu";
             this.btnSaveSlu.Size = new System.Drawing.Size(205, 30);
@@ -273,7 +280,7 @@
             // 
             // btnShowAllProcess
             // 
-            this.btnShowAllProcess.Location = new System.Drawing.Point(17, 192);
+            this.btnShowAllProcess.Location = new System.Drawing.Point(17, 78);
             this.btnShowAllProcess.Name = "btnShowAllProcess";
             this.btnShowAllProcess.Size = new System.Drawing.Size(205, 30);
             this.btnShowAllProcess.TabIndex = 8;
@@ -302,12 +309,79 @@
             this.comScriptMode.Size = new System.Drawing.Size(177, 28);
             this.comScriptMode.TabIndex = 0;
             // 
+            // btnLoad
+            // 
+            this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnLoad.Location = new System.Drawing.Point(17, 229);
+            this.btnLoad.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(205, 30);
+            this.btnLoad.TabIndex = 9;
+            this.btnLoad.Text = "加载已保存方案";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.chkHeight);
+            this.groupBox4.Controls.Add(this.chkWidth);
+            this.groupBox4.Controls.Add(this.chkY);
+            this.groupBox4.Controls.Add(this.chkX);
+            this.groupBox4.Location = new System.Drawing.Point(17, 266);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(205, 160);
+            this.groupBox4.TabIndex = 10;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "加载选项";
+            // 
+            // chkX
+            // 
+            this.chkX.AutoSize = true;
+            this.chkX.Location = new System.Drawing.Point(20, 26);
+            this.chkX.Name = "chkX";
+            this.chkX.Size = new System.Drawing.Size(141, 24);
+            this.chkX.TabIndex = 0;
+            this.chkX.Text = "UI坐标X固定";
+            this.chkX.UseVisualStyleBackColor = true;
+            // 
+            // chkY
+            // 
+            this.chkY.AutoSize = true;
+            this.chkY.Location = new System.Drawing.Point(20, 56);
+            this.chkY.Name = "chkY";
+            this.chkY.Size = new System.Drawing.Size(141, 24);
+            this.chkY.TabIndex = 1;
+            this.chkY.Text = "UI坐标Y固定";
+            this.chkY.UseVisualStyleBackColor = true;
+            // 
+            // chkWidth
+            // 
+            this.chkWidth.AutoSize = true;
+            this.chkWidth.Location = new System.Drawing.Point(20, 86);
+            this.chkWidth.Name = "chkWidth";
+            this.chkWidth.Size = new System.Drawing.Size(129, 24);
+            this.chkWidth.TabIndex = 2;
+            this.chkWidth.Text = "UI长度固定";
+            this.chkWidth.UseVisualStyleBackColor = true;
+            // 
+            // chkHeight
+            // 
+            this.chkHeight.AutoSize = true;
+            this.chkHeight.Location = new System.Drawing.Point(20, 116);
+            this.chkHeight.Name = "chkHeight";
+            this.chkHeight.Size = new System.Drawing.Size(129, 24);
+            this.chkHeight.TabIndex = 3;
+            this.chkHeight.Text = "UI高度固定";
+            this.chkHeight.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1450, 894);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnShowAllProcess);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
@@ -333,6 +407,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -363,5 +439,11 @@
         private System.Windows.Forms.PictureBox picUi;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox comScriptMode;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox chkHeight;
+        private System.Windows.Forms.CheckBox chkWidth;
+        private System.Windows.Forms.CheckBox chkY;
+        private System.Windows.Forms.CheckBox chkX;
     }
 }

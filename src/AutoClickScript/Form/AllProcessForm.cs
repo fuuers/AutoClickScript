@@ -20,8 +20,13 @@ namespace AutoClickScript
         public AllProcessForm()
         {
             InitializeComponent();
-            this.Load += AllProcessForm_Load;
-            this.grid.CellContentClick += Grid_CellContentClick;
+            Process_Load();
+        }
+
+        public AllProcessForm(Process[] ps)
+        {
+            InitializeComponent();
+            ps.ForEach(x => this.grid.Rows.Add(x.ProcessName, x.MainWindowTitle, x.MainWindowHandle, "选这个"));
         }
 
         private void Grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -35,7 +40,7 @@ namespace AutoClickScript
             }
         }
 
-        private void AllProcessForm_Load(object sender, EventArgs e)
+        private void Process_Load()
         {
             Process[] ps = Process.GetProcesses();
             ps.Where(x => x.MainWindowHandle != IntPtr.Zero).ForEach(x => this.grid.Rows.Add(x.ProcessName, x.MainWindowTitle, x.MainWindowHandle, "选这个"));
