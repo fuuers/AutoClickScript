@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
+//vs2019
 namespace AutoClickScript
 {
     public partial class MainForm : Form
