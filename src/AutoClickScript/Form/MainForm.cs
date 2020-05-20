@@ -402,6 +402,7 @@ namespace AutoClickScript
         private void btnUIAdd_Click(object sender, EventArgs e)
         {
             this.Hide();
+            Thread.Sleep(500);
             CaptureForm cutter = GetCaptureForm();
 
             if (cutter.ShowDialog() == DialogResult.OK)
@@ -467,7 +468,7 @@ namespace AutoClickScript
             btnFindForm_Click(null, null);
             if (processInfo._Handle != IntPtr.Zero)
             {
-                ChangeFormLocationAndSize(0, 0, so._Bitmap.Width, so._Bitmap.Height);
+                ChangeFormLocationAndSize(processInfo._Location.X, processInfo._Location.Y, so._Bitmap.Width, so._Bitmap.Height);
                 //double ratioTempX = (double)processInfo._Image._img.Width/ (double)so._Bitmap.Width;
                 //double ratioTempY = (double)processInfo._Image._img.Height / (double)so._Bitmap.Height;
 
