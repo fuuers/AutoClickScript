@@ -1,5 +1,5 @@
-.obj/
-.\src\AutoClickScript\obj
+/obj
+/src/AutoClickScript/obj
 *.pdb
 
 
